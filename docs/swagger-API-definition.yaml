@@ -1,0 +1,184 @@
+swagger: '2.0'
+info:
+  title: Authenticator UI API
+  description: Provides an interface for users to manage their accounts
+  version: "1.0.0"
+schemes:
+  - https
+basePath: /api/v1
+produces:
+  - application/json
+paths:
+  /sign-up:
+    post:
+      summary: Create a new account
+      parameters:
+        - name: username
+          in: query
+          description: Username for the new user
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: Password for the new user
+          required: true
+          type: string
+        - name: first_name
+          in: query
+          description: First name for the new user
+          required: false
+          type: string
+        - name: last_name
+          in: query
+          description: Last name for the new user
+          required: false
+          type: string
+      responses:
+        200:
+          description: Authorization tokens
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              expires_in:
+                type: integer
+              token_type:
+                type: string
+              scope:
+                type: string
+              refresh_token:
+                type: string
+        400:
+          description: Wrong credentials
+
+  /sign-in:
+    post:
+      summary: Log into the user's account
+      parameters:
+        - name: username
+          in: query
+          description: Current user's username
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: Current user's password
+          required: true
+          type: string
+      responses:
+        200:
+          description: Authorization tokens
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              expires_in:
+                type: integer
+              token_type:
+                type: string
+              scope:
+                type: string
+              refresh_token:
+                type: string
+        400:
+          description: Wrong credentials
+
+  /refresh:
+    post:
+      summary: Refresh the access token
+      parameters:
+        - name: refresh_token
+          in: query
+          description: Current user's refresh token
+          required: true
+          type: string
+      responses:
+        200:
+          description: Authorization tokens
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              expires_in:
+                type: integer
+              token_type:
+                type: string
+              scope:
+                type: string
+              refresh_token:
+                type: string
+        400:
+          description: Wrong credentials
+          
+  /update-account:
+    patch:
+      summary: Updates current user's profile
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT access token
+          required: true
+          type: string
+        - name: username
+          in: query
+          description: Username for the new user
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: Password for the new user
+          required: true
+          type: string
+        - name: first_name
+          in: query
+          description: First name for the new user
+          required: false
+          type: string
+        - name: last_name
+          in: query
+          description: Last name for the new user
+          required: false
+          type: string
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+          
+  /delete-account:
+    delete:
+      summary: Deletes current user's profile
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT access token
+          required: true
+          type: string
+        - name: username
+          in: query
+          description: Username for the new user
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: Password for the new user
+          required: true
+          type: string
+        - name: first_name
+          in: query
+          description: First name for the new user
+          required: false
+          type: string
+        - name: last_name
+          in: query
+          description: Last name for the new user
+          required: false
+          type: string
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
