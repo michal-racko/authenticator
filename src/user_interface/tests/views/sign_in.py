@@ -13,7 +13,7 @@ class SignInViewTest(OAuth2ProxyTestCase):
         with mock.patch('requests.post') as mock_request:
             mock_request.return_value = self.mock_oauth2_response
             response = self.client.post(
-                f'/{api_base_url}/sign_in',
+                f'/{api_base_url}/sign-in',
                 {
                     'username': self.user.username,
                     'password': self.user.password

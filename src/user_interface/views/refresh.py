@@ -34,4 +34,7 @@ def refresh(request):
         }
     )
 
-    return JsonResponse(oauth2_response.json())
+    return JsonResponse(
+        oauth2_response.json(),
+        status=oauth2_response.status_code
+    )

@@ -17,7 +17,7 @@ class SignUpViewTest(OAuth2ProxyTestCase):
         with mock.patch('requests.post') as mock_request:
             mock_request.return_value = self.mock_oauth2_response
             response = self.client.post(
-                f'/{api_base_url}/sign_up',
+                f'/{api_base_url}/sign-up',
                 {
                     'username': test_username,
                     'password': test_password
@@ -39,7 +39,7 @@ class SignUpViewTest(OAuth2ProxyTestCase):
 
     def test_missing_password(self):
         response = self.client.post(
-            f'/{api_base_url}/sign_up',
+            f'/{api_base_url}/sign-up',
             {
                 'username': 'test-user'
             }
@@ -53,7 +53,7 @@ class SignUpViewTest(OAuth2ProxyTestCase):
         with mock.patch('requests.post') as mock_request:
             mock_request.return_value = self.mock_oauth2_response
             response = self.client.post(
-                f'/{api_base_url}/sign_up',
+                f'/{api_base_url}/sign-up',
                 {
                     'username': test_username,
                     'password': test_password
@@ -62,7 +62,7 @@ class SignUpViewTest(OAuth2ProxyTestCase):
         self.assertEqual(response.status_code, HTTP_200_OK)
 
         response = self.client.post(
-            f'/{api_base_url}/sign_up',
+            f'/{api_base_url}/sign-up',
             {
                 'username': test_username,
                 'password': test_password
