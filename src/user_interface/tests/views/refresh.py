@@ -16,14 +16,14 @@ class RefreshTest(OAuth2ProxyTestCase):
             response = self.client.post(
                 f'/{api_base_url}/refresh',
                 {
-                    'token': refresh_token
+                    'refresh_token': refresh_token
                 }
             )
             mock_request.assert_called_with(
                 f'{settings.OAUTH2_URL}/token/',
                 data={
                     'grant_type': 'refresh_token',
-                    'token': refresh_token,
+                    'refresh_token': refresh_token,
                     'client_id': self.app.client_id,
                     'client_secret': self.app.client_secret
                 })

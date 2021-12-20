@@ -2,7 +2,6 @@ import mock
 
 from django.test import TestCase
 from django.conf import settings
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.test import APIClient
 from oauth2_provider.models import Application
 from django.contrib.auth.models import User

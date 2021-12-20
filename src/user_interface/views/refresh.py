@@ -28,7 +28,7 @@ def refresh(request):
         f'{settings.OAUTH2_URL}/token/',
         data={
             'grant_type': 'refresh_token',
-            'token': request.data.get('token'),
+            'refresh_token': request.data.get('refresh_token'),
             'client_id': current_app.client_id,
             'client_secret': current_app.client_secret
         }
