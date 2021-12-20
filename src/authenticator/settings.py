@@ -10,23 +10,69 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
+
 from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
+
+
+def get_secret(variable_name: str,
+               variable_file_name: str,
+               default_value: str = None,
+               required=False) -> str:
+    """
+    Reads the value of the desired variable from the environment (if present),
+    file specified (if variable_file_name in env) or returns the default
+    value if none of the previous is satisfied.
+    """
+    if variable_name in env:
+        return env.str(variable_name)
+
+    elif variable_file_name in env:
+        variable_file = Path(env.str(variable_file_name))
+
+        if not variable_file.is_file():
+            raise EnvironmentError(
+                f'No secrets file found at {variable_file}'
+            )
+
+        return variable_file.read_text().strip()
+
+    else:
+        if required and default_value is None:
+            raise EnvironmentError(f'{variable_name} not set')
+        return default_value
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-API_BASE_URL = 'api/v1'
+API_BASE_URL = get_secret(
+    'AUTHENTICATOR_BASE_URL',
+    'AUTHENTICATOR_BASE_URL_FILE',
+    'api/v1'
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rlehs0(hqtbx-2s647p+%dw388r=0n^#8u_uxa%$fdo8k_dcqy'
+SECRET_KEY = get_secret(
+    'AUTHENTICATOR_SECRET_KEY',
+    'AUTHENTICATOR_SECRET_KEY_FILE',
+    required=True
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('AUTHENTICATOR_DEBUG', default=False)
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = get_secret(
+    'AUTHENTICATOR_ALLOWED_HOSTS',
+    'AUTHENTICATOR_ALLOWED_HOSTS_FILE',
+    'localhost'
+).split(',')
 
 # Application definition
 
@@ -140,4 +186,26 @@ OAUTH2_PROVIDER = {
     }
 }
 
-OAUTH2_URL = 'http://localhost:8000/o'
+OAUTH2_URL = get_secret(
+    'AUTHENTICATOR_OAUTH2_URL',
+    'AUTHENTICATOR_OAUTH2_URL_FILE',
+    default_value='http://localhost:8000/o'
+)
+
+ADMIN_USERNAME = get_secret(
+    'AUTHENTICATOR_ADMIN_USERNAME',
+    'AUTHENTICATOR_ADMIN_USERNAME_FILE',
+    required=True
+)
+
+ADMIN_EMAIL = get_secret(
+    'AUTHENTICATOR_ADMIN_EMAIL',
+    'AUTHENTICATOR_ADMIN_EMAIL_FILE',
+    required=True
+)
+
+ADMIN_PASSWORD = get_secret(
+    'AUTHENTICATOR_ADMIN_PASSWORD',
+    'AUTHENTICATOR_ADMIN_PASSWORD_FILE',
+    required=True
+)
