@@ -140,4 +140,4 @@ OAUTH2_PROVIDER = {
     }
 }
 
-OAUTH2_URL = 'http://localhost:8000/o/'
+OAUTH2_URL = 'http://localhost:8000/o'

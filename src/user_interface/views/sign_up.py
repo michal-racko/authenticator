@@ -1,6 +1,10 @@
-from django.http import HttpResponse
+import requests
+
+from django.conf import settings
+from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from oauth2_provider.models import Application
 
 from user_interface.serializers import UserSerializer
 
@@ -9,8 +13,8 @@ from user_interface.serializers import UserSerializer
 @permission_classes([AllowAny])
 def sign_up(request):
     """
-    A sign-up view. Anyone can create an account providing
-    their username and password.
+    A sign-up view. Anyone can create an account
+    providing their username and password.
 
     TODO:  human verification - robots shouldn't be allowed to create user accounts in a loop
     """
@@ -18,4 +22,17 @@ def sign_up(request):
     serializer.is_valid(raise_exception=True)
     serializer.save()
 
-    return HttpResponse('OK')
+    current_app = Application.objects.get(name='user_interface')
+
+    oauth2_response = requests.post(
+        f'{settings.OAUTH2_URL}/token/',
+        data={
+            'grant_type': 'password',
+            'username': request.data['username'],
+            'password': request.data['password'],
+            'client_id': current_app.client_id,
+            'client_secret': current_app.client_secret
+        }
+    )
+
+    return JsonResponse(oauth2_response.json())
