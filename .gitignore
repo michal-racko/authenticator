@@ -4,4 +4,4 @@
 
 *.sqlite3
 
-test_env.sh
+test.env
