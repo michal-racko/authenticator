@@ -29,10 +29,6 @@ class OAuth2ProxyTestCase(TestCase):
         )
         self.user.save()
 
-        self.app = Application.objects.create(
-            name='user_interface',
-            user=self.user,
-            client_type=Application.CLIENT_CONFIDENTIAL,
-            authorization_grant_type=Application.GRANT_AUTHORIZATION_CODE,
+        self.app = Application.objects.get(
+            name='user_interface'
         )
-        self.app.save()
