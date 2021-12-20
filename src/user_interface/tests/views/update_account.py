@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 api_base_url = settings.API_BASE_URL.strip('/')
 
 
-class UpdateDetailsTest(TestCase):
+class UpdateAccountTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
@@ -25,7 +25,7 @@ class UpdateDetailsTest(TestCase):
 
         new_name = 'new-name'
         response = self.client.patch(
-            f'/{api_base_url}/update_details',
+            f'/{api_base_url}/update-account',
             data={
                 'first_name': new_name
             }
@@ -36,7 +36,7 @@ class UpdateDetailsTest(TestCase):
     def test_unauthorized(self):
         new_name = 'new-name'
         response = self.client.patch(
-            f'/{api_base_url}/update_details',
+            f'/{api_base_url}/update-account',
             data={
                 'first_name': new_name
             }

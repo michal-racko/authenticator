@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
-def update_details(request):
+def update_account(request):
     """
     Updates details for the currently logged-in user.
     Any of the following can be updated by providing
