@@ -1,1 +1,1 @@
-from .views import SignUpViewTest
+from .views import SignUpViewTest, SignInViewTest, RefreshTest
