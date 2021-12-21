@@ -24,6 +24,18 @@ The microservice is configured using environment variables, or their Docker-secr
 
 The corresponding Docker will serve the application on port 8000. Make sure the port is exposed and properly forwarded.
 
+## Register your microservice
+
+A user who completes login in one of the applications registered with the authentication server will have access to
+all other registered applications using their access token. To register your microservice do the following:
+
+- Login to the admin page `<authenticator-url>/admin/` (or ask your admin to do this)
+- Go to the application site: `<oauth2-url>/applications/`
+- Click on the `New Application` button
+- Fill in the form (see https://django-oauth-toolkit.readthedocs.io/en/latest/getting_started.html for more details)
+- Save & use your application's `client_id` and `client_secret` (
+  see https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/getting_started.html#step-4-get-your-token-and-use-your-api)
+
 ## Tests
 
 Make sure to run migrations first:
