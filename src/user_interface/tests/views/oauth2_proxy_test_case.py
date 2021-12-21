@@ -21,6 +21,7 @@ class OAuth2ProxyTestCase(TestCase):
             'scope': 'read write groups',
             'refresh_token': '<a-lasting-token>'
         }
+        self.mock_oauth2_response.status_code = 200
 
         self.user = User.objects.create(
             username='user-1',
